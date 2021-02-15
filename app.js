@@ -1,11 +1,13 @@
 
 const express = require('express');
+const morgan = require('morgan');
+
 const app = express();
 const port = process.env.port||80
 
 const adminRouter = require('./route/adminRouter');
 const userRouter = require('./route/userRouter');
-
+const contactRoutes = require('./route/contactRoutes');
 
 
 // function kazi(req,res,next)
@@ -21,6 +23,13 @@ const userRouter = require('./route/userRouter');
 
 
 
+
+app.use(morgan('dev'))
+
+app.use(express.urlencoded({extended:true}))
+app.use(express.json())
+
+app.use('/contacts',contactRoutes);
 app.use('/admin',adminRouter);
 app.use('/user',userRouter);
 

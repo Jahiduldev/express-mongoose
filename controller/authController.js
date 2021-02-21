@@ -12,19 +12,23 @@ exports.signupGetController = (req,res,next)=>{
 
 exports.signupPostController = async (req,res,next) => {
 
-	// console.log(req.body)
+	
 	let errors = validationResult(req).formatWith(errorFormatter)
+
+	console.log(errors)
+	
 	if (!errors.isEmpty()) {
 
 		return res.render('pages/auth/signup',{title: 'create a new user',error:errors.mapped()})
-		// return console.log(errors.mapped())
+	
 	}
 	let { username, email, password, confirmpassword } = req.body
 
+
+	
 	try{
 
 		let hashPassword = await bcrypt.hash(password,11)
-
 		let user = new User({
 			username,
 			email,
@@ -43,13 +47,18 @@ exports.signupPostController = async (req,res,next) => {
 }
 
 exports.loginGetController = (req,res,next)=>{
-	res.render('pages/auth/login')
-
+	res.render('pages/auth/login',{title: 'create a new user', error:{}})
 }
 
 exports.loginPostController = async (req,res,next)=>{
 
 	
+	let errors = validationResult(req).formatWith(errorFormatter)
+	if (!errors.isEmpty()) {
+
+		return res.render('pages/auth/login',{title: 'create a new user',error:errors.mapped()})
+	
+	}
 
 	let { email, password} = req.body
 
